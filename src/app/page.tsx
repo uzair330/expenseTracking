@@ -1,63 +1,118 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState, useCallback } from "react";
+import { DashboardStats } from "@/components/DashboardStats";
+import { TransactionForm } from "@/components/TransactionForm";
+import { TransactionList } from "@/components/TransactionList";
+import { ExportButtons } from "@/components/ExportButtons";
+import { Wallet } from "lucide-react";
+import type { Transaction } from "@/lib/types";
+
+export default function Dashboard() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+
+  const fetchTransactions = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/transactions?filter=${filter}`);
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
+      setTransactions(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  const handleAddTransaction = async (data: { amount: number; type: "INCOME" | "EXPENSE"; category: string; description: string; }) => {
+    try {
+      const res = await fetch("/api/transactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Failed to add transaction");
+      fetchTransactions();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add transaction");
+    }
+  };
+
+  const handleDeleteTransaction = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this transaction?")) return;
+    try {
+      const res = await fetch(`/api/transactions/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete");
+      fetchTransactions();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete transaction");
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans text-zinc-900 dark:text-zinc-100 selection:bg-blue-100 dark:selection:bg-blue-900/50">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-3xl font-bold flex items-center gap-3">
+              <span className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-2xl shadow-lg shadow-blue-500/30">
+                <Wallet className="w-6 h-6" />
+              </span>
+              Expense Tracker
+            </h1>
+            <p className="text-zinc-500 dark:text-zinc-400 mt-2 text-sm font-medium">
+              Manage your daily expenses effortlessly.
+            </p>
+          </div>
+
+          <div className="flex bg-white dark:bg-zinc-900 rounded-xl p-1 shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-x-auto hide-scrollbar">
+            {["all", "today", "week", "month"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`px-5 py-2 text-sm font-semibold rounded-lg capitalize transition-all ${filter === f
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                  }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        <DashboardStats transactions={transactions} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:items-start mt-8">
+          <div className="lg:col-span-1 space-y-6 lg:sticky lg:top-8">
+            <TransactionForm onAddTransaction={handleAddTransaction} />
+            <ExportButtons transactions={transactions} />
+          </div>
+          <div className="lg:col-span-2">
+            {loading ? (
+              <div className="animate-pulse space-y-4">
+                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+              </div>
+            ) : (
+              <TransactionList
+                transactions={transactions}
+                onDelete={handleDeleteTransaction}
+              />
+            )}
+          </div>
         </div>
       </main>
     </div>
