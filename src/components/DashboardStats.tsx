@@ -21,7 +21,7 @@ export function DashboardStats({ transactions }: { transactions: Transaction[] }
                     </div>
                     <div>
                         <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Balance</p>
-                        <h3 className="text-2xl font-bold dark:text-white">${balance.toFixed(2)}</h3>
+                        <h3 className="text-2xl font-bold dark:text-white">PKR {balance.toFixed(2)}</h3>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@ export function DashboardStats({ transactions }: { transactions: Transaction[] }
                     </div>
                     <div>
                         <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Income</p>
-                        <h3 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">+${totalIncome.toFixed(2)}</h3>
+                        <h3 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">+PKR {totalIncome.toFixed(2)}</h3>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export function DashboardStats({ transactions }: { transactions: Transaction[] }
                     </div>
                     <div>
                         <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Expense</p>
-                        <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">-${totalExpense.toFixed(2)}</h3>
+                        <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">-PKR {totalExpense.toFixed(2)}</h3>
                     </div>
                 </div>
             </div>

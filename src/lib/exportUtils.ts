@@ -22,9 +22,9 @@ export const generatePDF = (transactions: Transaction[]) => {
 
     const balance = totalIncome - totalExpense;
 
-    doc.text(`Total Income: $${totalIncome.toFixed(2)}`, 14, 40);
-    doc.text(`Total Expense: $${totalExpense.toFixed(2)}`, 14, 46);
-    doc.text(`Net Balance: $${balance.toFixed(2)}`, 14, 52);
+    doc.text(`Total Income: PKR ${totalIncome.toFixed(2)}`, 14, 40);
+    doc.text(`Total Expense: PKR ${totalExpense.toFixed(2)}`, 14, 46);
+    doc.text(`Net Balance: PKR ${balance.toFixed(2)}`, 14, 52);
 
     const tableColumn = ["Date", "Type", "Category", "Description", "Amount"];
     const tableRows = transactions.map((t) => [
@@ -32,7 +32,7 @@ export const generatePDF = (transactions: Transaction[]) => {
         t.type,
         t.category,
         t.description || "-",
-        `$${t.amount.toFixed(2)}`,
+        `PKR ${t.amount.toFixed(2)}`,
     ]);
 
     autoTable(doc, {
@@ -61,16 +61,16 @@ export const shareToWhatsApp = (transactions: Transaction[]) => {
     const text = `*Daily Expense Tracker Report*\nGenerated: ${format(
         new Date(),
         "PP"
-    )}\n\n*Summary:*\nIncome: $${totalIncome.toFixed(
+    )}\n\n*Summary:*\nIncome: PKR ${totalIncome.toFixed(
         2
-    )}\nExpense: $${totalExpense.toFixed(2)}\n*Balance: $${balance.toFixed(
+    )}\nExpense: PKR ${totalExpense.toFixed(2)}\n*Balance: PKR ${balance.toFixed(
         2
     )}*\n\n*Recent Transactions:*\n${transactions
         .slice(0, 10)
         .map(
             (t) =>
                 `- ${format(new Date(t.date), "MMM d")}: ${t.category} (${t.type === "INCOME" ? "+" : "-"
-                }$${t.amount.toFixed(2)})`
+                }PKR ${t.amount.toFixed(2)})`
         )
         .join("\n")}${transactions.length > 10 ? "\n...and more." : ""
         }\n\n(Download the PDF from the app for full details.)`;

@@ -54,8 +54,8 @@ export function TransactionForm({
                             setCategory("Food");
                         }}
                         className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${type === "EXPENSE"
-                                ? "bg-white dark:bg-zinc-700 text-red-600 dark:text-red-400 shadow"
-                                : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+                            ? "bg-white dark:bg-zinc-700 text-red-600 dark:text-red-400 shadow"
+                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
                             }`}
                     >
                         Expense
@@ -67,8 +67,8 @@ export function TransactionForm({
                             setCategory("Salary");
                         }}
                         className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${type === "INCOME"
-                                ? "bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow"
-                                : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+                            ? "bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow"
+                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
                             }`}
                     >
                         Income
@@ -80,14 +80,14 @@ export function TransactionForm({
                         Amount
                     </label>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">Rs</span>
                         <input
                             type="number"
                             step="0.01"
                             required
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            className="w-full pl-8 pr-4 py-2.5 bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl focus:ring-2 focus:ring-blue-500 dark:text-white transition-shadow"
+                            className="w-full pl-10 pr-4 py-2.5 bg-zinc-50 dark:bg-zinc-800 border-none rounded-xl focus:ring-2 focus:ring-blue-500 dark:text-white transition-shadow"
                             placeholder="0.00"
                         />
                     </div>

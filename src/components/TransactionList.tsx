@@ -25,8 +25,8 @@ export function TransactionList({
                             <div className="flex items-center gap-4">
                                 <div
                                     className={`p-3 rounded-xl ${t.type === "INCOME"
-                                            ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
-                                            : "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
+                                        ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
+                                        : "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
                                         }`}
                                 >
                                     {t.type === "INCOME" ? (
@@ -54,11 +54,11 @@ export function TransactionList({
                             <div className="flex items-center gap-4">
                                 <span
                                     className={`font-semibold ${t.type === "INCOME"
-                                            ? "text-emerald-600 dark:text-emerald-400"
-                                            : "text-zinc-900 dark:text-white"
+                                        ? "text-emerald-600 dark:text-emerald-400"
+                                        : "text-zinc-900 dark:text-white"
                                         }`}
                                 >
-                                    {t.type === "INCOME" ? "+" : "-"}${t.amount.toFixed(2)}
+                                    {t.type === "INCOME" ? "+" : "-"}PKR {t.amount.toFixed(2)}
                                 </span>
                                 <button
                                     onClick={() => onDelete(t.id)}
