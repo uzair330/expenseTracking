@@ -4,5 +4,5 @@ export interface Transaction {
     type: "INCOME" | "EXPENSE";
     category: string;
     description: string | null;
-    date: string;
+    date: string | Date;
 }

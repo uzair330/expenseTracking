@@ -52,6 +52,14 @@ export const generatePDF = (transactions: Transaction[]) => {
         },
     });
 
+    // Cast doc to any to access the lastAutoTable property added by jspdf-autotable
+    const finalY = (doc as any).lastAutoTable?.finalY || 60 + tableRows.length * 10;
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Closing Balance: Rs ${balance.toFixed(2)}`, 14, finalY + 15);
+    doc.text(`Available Balance: Rs ${balance.toFixed(2)}`, 14, finalY + 22);
+
     doc.save(`Statement_${format(new Date(), "yyyy-MM-dd")}.pdf`);
 };
 

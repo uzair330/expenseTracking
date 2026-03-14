@@ -7,6 +7,7 @@ import { TransactionList } from "@/components/TransactionList";
 import { ExportButtons } from "@/components/ExportButtons";
 import { Wallet } from "lucide-react";
 import type { Transaction } from "@/lib/types";
+import { getTransactions, addTransaction, deleteTransaction } from "@/actions/transactions";
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -16,9 +17,7 @@ export default function Dashboard() {
   const fetchTransactions = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/transactions?filter=${filter}`);
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data = await res.json();
+      const data = await getTransactions(filter);
       setTransactions(data);
     } catch (error) {
       console.error(error);
@@ -33,30 +32,28 @@ export default function Dashboard() {
 
   const handleAddTransaction = async (data: { amount: number; type: "INCOME" | "EXPENSE"; category: string; description: string; }) => {
     try {
-      const res = await fetch("/api/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Failed to add transaction");
-      fetchTransactions();
+      setLoading(true);
+      await addTransaction(data);
+      await fetchTransactions();
     } catch (error) {
       console.error(error);
       alert("Failed to add transaction");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDeleteTransaction = async (id: string) => {
     if (!confirm("Are you sure you want to delete this transaction?")) return;
     try {
-      const res = await fetch(`/api/transactions/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Failed to delete");
-      fetchTransactions();
+      setLoading(true);
+      await deleteTransaction(id);
+      await fetchTransactions();
     } catch (error) {
       console.error(error);
       alert("Failed to delete transaction");
+    } finally {
+      setLoading(false);
     }
   };
 
