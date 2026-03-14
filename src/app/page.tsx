@@ -61,18 +61,18 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans text-zinc-900 dark:text-zinc-100 selection:bg-blue-100 dark:selection:bg-blue-900/50">
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans text-zinc-900 dark:text-zinc-100 selection:bg-blue-100 dark:selection:bg-blue-900/50 pb-20">
+      <main className="max-w-md mx-auto px-4 sm:px-6 py-8">
+        <header className="flex flex-col items-center justify-center text-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-3">
-              <span className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-2xl shadow-lg shadow-blue-500/30">
-                <Wallet className="w-6 h-6" />
-              </span>
-              Expense Tracker
+            <div className="inline-flex p-3 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-2xl shadow-lg shadow-blue-500/30 mb-4">
+              <Wallet className="w-8 h-8" />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight">
+              My Account
             </h1>
-            <p className="text-zinc-500 dark:text-zinc-400 mt-2 text-sm font-medium">
-              Manage your daily expenses effortlessly.
+            <p className="text-zinc-500 dark:text-zinc-400 mt-1 text-sm font-medium">
+              Daily Expense Tracker
             </p>
           </div>
 
@@ -82,8 +82,8 @@ export default function Dashboard() {
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-5 py-2 text-sm font-semibold rounded-lg capitalize transition-all ${filter === f
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800"
                   }`}
               >
                 {f}
@@ -94,12 +94,14 @@ export default function Dashboard() {
 
         <DashboardStats transactions={transactions} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:items-start mt-8">
-          <div className="lg:col-span-1 space-y-6 lg:sticky lg:top-8">
+        <div className="flex flex-col gap-6 mt-6">
+          <div className="space-y-6">
             <TransactionForm onAddTransaction={handleAddTransaction} />
+          </div>
+          <div className="space-y-6">
             <ExportButtons transactions={transactions} />
           </div>
-          <div className="lg:col-span-2">
+          <div className="mt-2">
             {loading ? (
               <div className="animate-pulse space-y-4">
                 <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>

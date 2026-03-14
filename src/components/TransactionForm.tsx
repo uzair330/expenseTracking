@@ -43,8 +43,8 @@ export function TransactionForm({
     };
 
     return (
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-800">
-            <h2 className="text-xl font-semibold mb-4 dark:text-white">Add Transaction</h2>
+        <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-800">
+            <h2 className="text-lg font-bold mb-4 dark:text-white pb-2 border-b border-zinc-100 dark:border-zinc-800">New Transaction</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex gap-2 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl">
                     <button
@@ -53,12 +53,12 @@ export function TransactionForm({
                             setType("EXPENSE");
                             setCategory("Food");
                         }}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${type === "EXPENSE"
-                            ? "bg-white dark:bg-zinc-700 text-red-600 dark:text-red-400 shadow"
-                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all ${type === "EXPENSE"
+                            ? "bg-red-500 text-white shadow-md shadow-red-500/20"
+                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
                             }`}
                     >
-                        Expense
+                        Debit
                     </button>
                     <button
                         type="button"
@@ -66,12 +66,12 @@ export function TransactionForm({
                             setType("INCOME");
                             setCategory("Salary");
                         }}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${type === "INCOME"
-                            ? "bg-white dark:bg-zinc-700 text-emerald-600 dark:text-emerald-400 shadow"
-                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all ${type === "INCOME"
+                            ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
+                            : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
                             }`}
                     >
-                        Income
+                        Credit
                     </button>
                 </div>
 
@@ -126,10 +126,10 @@ export function TransactionForm({
                 <button
                     type="submit"
                     disabled={loading || !amount}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-colors disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 bg-zinc-900 dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white py-3.5 rounded-xl font-semibold transition-colors disabled:opacity-50 mt-2"
                 >
                     <PlusCircle className="w-5 h-5" />
-                    {loading ? "Saving..." : "Save Transaction"}
+                    {loading ? "Processing..." : "Add Transaction"}
                 </button>
             </form>
         </div>
