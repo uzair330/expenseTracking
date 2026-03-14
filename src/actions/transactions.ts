@@ -1,6 +1,7 @@
 "use server";
 
-import { db } from "@/db";
+import { createDb } from "@/lib/db";
+const db = createDb();
 import { transactions } from "@/db/schema";
 import { desc, gte, eq } from "drizzle-orm";
 import { startOfDay, startOfWeek, startOfMonth } from "date-fns";
