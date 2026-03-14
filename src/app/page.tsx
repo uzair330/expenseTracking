@@ -68,9 +68,12 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold tracking-tight">
               My Account
             </h1>
-            <p className="text-zinc-500 dark:text-zinc-400 mt-1 text-sm font-medium">
-              Daily Expense Tracker
-            </p>
+            <div className="flex items-center justify-center gap-2 mt-1">
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">
+                Daily Expense Tracker
+              </p>
+              <ExportButtons transactions={transactions} />
+            </div>
           </div>
 
           <div className="flex bg-white dark:bg-zinc-900 rounded-xl p-1 shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-x-auto hide-scrollbar">
@@ -89,28 +92,26 @@ export default function Dashboard() {
           </div>
         </header>
 
+        <div className="mb-6">
+          {loading ? (
+            <div className="animate-pulse space-y-4">
+              <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+              <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+              <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
+            </div>
+          ) : (
+            <TransactionList
+              transactions={transactions}
+              onDelete={handleDeleteTransaction}
+            />
+          )}
+        </div>
+
         <DashboardStats transactions={transactions} />
 
         <div className="flex flex-col gap-6 mt-6">
           <div className="space-y-6">
             <TransactionForm onAddTransaction={handleAddTransaction} />
-          </div>
-          <div className="space-y-6">
-            <ExportButtons transactions={transactions} />
-          </div>
-          <div className="mt-2">
-            {loading ? (
-              <div className="animate-pulse space-y-4">
-                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
-                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
-                <div className="h-24 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl w-full"></div>
-              </div>
-            ) : (
-              <TransactionList
-                transactions={transactions}
-                onDelete={handleDeleteTransaction}
-              />
-            )}
           </div>
         </div>
       </main>

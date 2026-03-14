@@ -55,10 +55,16 @@ export const generatePDF = (transactions: Transaction[]) => {
     // Cast doc to any to access the lastAutoTable property added by jspdf-autotable
     const finalY = (doc as any).lastAutoTable?.finalY || 60 + tableRows.length * 10;
 
+    // Draw a blue background bar matching the table header
+    const pageWidth = doc.internal.pageSize.getWidth();
+    doc.setFillColor(30, 41, 59); // Same dark slate as table header
+    doc.rect(14, finalY + 6, pageWidth - 28, 12, "F");
+
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`Closing Balance: Rs ${balance.toFixed(2)}`, 14, finalY + 15);
-    doc.text(`Available Balance: Rs ${balance.toFixed(2)}`, 14, finalY + 22);
+    doc.setTextColor(255, 255, 255); // White text
+    doc.text(`Available Balance: Rs ${balance.toFixed(2)}`, 18, finalY + 14);
+    doc.setTextColor(0, 0, 0); // Reset to black
 
     doc.save(`Statement_${format(new Date(), "yyyy-MM-dd")}.pdf`);
 };
