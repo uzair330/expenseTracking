@@ -75,21 +75,6 @@ export default function Dashboard() {
               <ExportButtons transactions={transactions} />
             </div>
           </div>
-
-          <div className="flex bg-white dark:bg-zinc-900 rounded-xl p-1 shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-x-auto hide-scrollbar">
-            {["all", "today", "week", "month"].map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-5 py-2 text-sm font-semibold rounded-lg capitalize transition-all ${filter === f
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800"
-                  }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
         </header>
 
         <div className="mb-6">
@@ -103,6 +88,8 @@ export default function Dashboard() {
             <TransactionList
               transactions={transactions}
               onDelete={handleDeleteTransaction}
+              filter={filter}
+              onFilterChange={setFilter}
             />
           )}
         </div>
